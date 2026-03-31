@@ -1,6 +1,81 @@
-@ServerlessTaskManager.Api_HostAddress = http://localhost:5175
+@HostAddress = http://localhost:5175
+@UserId = dcarbajal
+@TaskId = {{createTask.response.body.id}}
 
-GET {{ServerlessTaskManager.Api_HostAddress}}/weatherforecast/
+### ==========================================
+### CREATE TASK
+### ==========================================
+# @name createTask
+POST {{HostAddress}}/api/tasks?userId={{UserId}}
+Content-Type: application/json
+
+{
+  "title": "Implementar autenticación JWT",
+  "description": "Agregar middleware de autenticación con JWT Bearer tokens",
+  "priority": "High",
+  "assignedTo": "dev-team",
+  "dueDate": "2026-04-15T00:00:00Z",
+  "tags": ["auth", "security", "backend"]
+}
+
+###
+
+### ==========================================
+### GET ALL TASKS BY USER
+### ==========================================
+GET {{HostAddress}}/api/tasks?userId={{UserId}}
 Accept: application/json
+
+###
+
+### ==========================================
+### GET TASK BY ID
+### ==========================================
+GET {{HostAddress}}/api/tasks/{{TaskId}}?userId={{UserId}}
+Accept: application/json
+
+###
+
+### ==========================================
+### SEARCH TASKS
+### ==========================================
+GET {{HostAddress}}/api/tasks/search?userId={{UserId}}&q=auth
+Accept: application/json
+
+###
+
+### ==========================================
+### UPDATE TASK (full update)
+### ==========================================
+PUT {{HostAddress}}/api/tasks/{{TaskId}}?userId={{UserId}}
+Content-Type: application/json
+
+{
+  "title": "Implementar autenticación JWT — actualizado",
+  "description": "Incluir refresh tokens y revocación",
+  "priority": "Critical",
+  "assignedTo": "senior-dev",
+  "dueDate": "2026-04-10T00:00:00Z",
+  "tags": ["auth", "security", "backend", "jwt"]
+}
+
+###
+
+### ==========================================
+### PATCH TASK STATUS
+### ==========================================
+PATCH {{HostAddress}}/api/tasks/{{TaskId}}/status?userId={{UserId}}
+Content-Type: application/json
+
+{
+  "status": "InProgress"
+}
+
+###
+
+### ==========================================
+### SOFT DELETE TASK
+### ==========================================
+DELETE {{HostAddress}}/api/tasks/{{TaskId}}?userId={{UserId}}
 
 ###
